@@ -81,6 +81,10 @@ class WatchlistEntry(db.Model):
     date_added = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     public = db.Column(db.Boolean, default=True)
 
+    # Relationship so get_watchlist() can read entry.film (mirrors how
+    # CollectionEntry reaches its film via the Film.collection_entries backref).
+    film = db.relationship("Film")
+
     def to_dict(self):
         return {
             "id": self.id,
