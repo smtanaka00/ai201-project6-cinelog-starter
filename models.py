@@ -81,7 +81,9 @@ class WatchlistEntry(db.Model):
     # that merged to main while this branch was open.
     film_id = db.Column(db.String(36), db.ForeignKey("film.id"), nullable=False)
     date_added = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
-    public = db.Column(db.Boolean, default=True)
+    # Private by default (Comment 4): a watchlist is aspirational intent, so we
+    # don't broadcast it without an explicit opt-in. A public toggle can follow.
+    public = db.Column(db.Boolean, default=False)
 
     # Relationship so get_watchlist() can read entry.film (mirrors how
     # CollectionEntry reaches its film via the Film.collection_entries backref).
